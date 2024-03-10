@@ -1,1 +1,2 @@
 # yas
+Hi, this project is about a machine learning based fuel control valve monitoring system for gas compressor unit. I am going to create a monitoring system that will prevent false alarms of emergency shutdowns of a gas pumping unit based on data. For this purpose, I am going to create and train a neural network and then implement it in the automatic control system of the gas compressor unit. I will be very glad if you help me with this!) 

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Маленький романтичный тест</title>
+  <style>
+    :root{
+      --bg:#0f0f14;
+      --card:#151621;
+      --accent:#ff7aa2;
+      --accent-2:#ffd1e1;
+      --text:#f6f7fb;
+      --muted:#c9ccda;
+      --danger:#ff7d7d;
+      --ok:#77ffb3;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      background:
+        radial-gradient(1200px 800px at 80% -10%, #22253a 10%, transparent 60%),
+        radial-gradient(900px 600px at -20% 110%, #1a1c2b 10%, transparent 60%),
+        var(--bg);
+      color:var(--text);
+      font:16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      overflow:hidden;
+    }
+    .card{
+      width:min(680px, 92vw);
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 10px 40px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.05);
+      border-radius:20px;
+      padding:28px 22px 24px;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    h1{
+      margin:6px 0 8px;
+      font-size:clamp(22px, 3.6vw, 34px);
+      line-height:1.15;
+      letter-spacing:0.2px;
+    }
+    p{margin:0 0 14px;color:var(--muted);font-size:clamp(15px, 2.7vw, 18px)}
+    .buttons{
+      display:flex;
+      gap:12px;
+      margin-top:16px;
+      flex-wrap:wrap;
+    }
+    button{
+      appearance:none;
+      border:none;
+      border-radius:14px;
+      padding:14px 18px;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .06s ease, box-shadow .2s ease, background .2s ease;
+      box-shadow:0 8px 20px rgba(0,0,0,0.25);
+      font-size:16px;
+    }
+    button:active{ transform:scale(0.98) }
+    .yes{
+      background:linear-gradient(135deg, var(--accent), #ff9ec1);
+      color:#2a1020;
+    }
+    .no{
+      background:linear-gradient(135deg, #3a3f57, #2a2f44);
+      color:#e6e8f5;
+    }
+    .meta{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--accent-2);
+      font-weight:700;
+      letter-spacing:0.3px;
+      margin-bottom:8px;
+      opacity:.95;
+    }
+    .meta .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 10px var(--accent);
+    }
+    .heart-spray{
+      position:absolute; inset:0; pointer-events:none; overflow:hidden;
+    }
+    .heart{
+      position:absolute; top:-40px;
+      font-size:22px;
+      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.35));
+      animation: fall linear;
+      opacity:.85;
+    }
+    @keyframes fall{
+      from{ transform: translateY(-60px) rotate(0deg) }
+      to{ transform: translateY(calc(100vh + 120px)) rotate(360deg) }
+    }
+    .screen{ display:none }
+    .screen.active{ display:block }
+    .kisses{ font-size:clamp(18px, 4vw, 24px); color:var(--accent-2) }
+    .counter{
+      display:inline-flex; align-items:center; justify-content:center;
+      min-width:72px; padding:8px 12px; margin-top:10px;
+      border-radius:12px; background:rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.08);
+      font-weight:800; letter-spacing:0.4px; color:#fff;
+    }
+    .footer-note{ margin-top:14px; font-size:13px; color:#a9adc3 }
+  </style>
+</head>
+<body>
+  <div class="card" role="dialog" aria-labelledby="title">
+    <div class="heart-spray" id="spray" aria-hidden="true"></div>
+
+    <!-- Screen 1 -->
+    <section id="s1" class="screen active" aria-live="polite">
+      <div class="meta"><span class="dot"></span> Сегодня — 14.08.2025</div>
+      <h1 id="title">А это значит, что ты уже <span style="color:var(--accent)">890 дней</span> у меня в голове</h1>
+      <p>Каждый день я представляю тебя, вижу, мечтаю о тебе. А теперь выбери кнопку.</p>
+      <div class="buttons" role="group" aria-label="Выбор ответа">
+        <button class="yes" id="loveBtn">Люблю тебя</button>
+        <button class="no" id="noloveBtn">Не люблю тебя</button>
+      </div>
+      <p class="footer-note">Если вдруг перепутала кнопку — ничего страшного, тут всегда можно всё исправить ♡</p>
+    </section>
+
+    <!-- Screen 2 -->
+    <section id="s2" class="screen" aria-live="polite" aria-hidden="true">
+      <div class="meta"><span class="dot"></span> Наш момент — 14.08.2025</div>
+      <h1>Я тоже тебя люблю! 💖</h1>
+      <p class="kisses">И в этот <strong>890‑й день</strong> я хочу подарить тебе <strong>890 поцелуев</strong>.</p>
+      <div class="counter" id="counter" aria-label="Счётчик поцелуев">0 / 890</div>
+      <div class="buttons" style="margin-top:18px">
+        <button class="yes" id="kissBtn">Получить ещё поцелуй</button>
+        <button class="no" id="backBtn" aria-label="Вернуться">Вернуться к началу</button>
+      </div>
+      <p class="footer-note">Нажимай, пока не наберёшь все 890 — я рядом с каждым кликом.</p>
+    </section>
+
+    <!-- Screen 3 -->
+    <section id="s3" class="screen" aria-live="polite" aria-hidden="true">
+      <div class="meta"><span class="dot"></span> Ой… минуточку</div>
+      <h1>Хмм 🤔 Похоже, ты нажала не ту кнопку</h1>
+      <p>Дай попробуем ещё раз. У меня есть хорошее предчувствие насчёт первой кнопки.</p>
+      <div class="buttons">
+        <button class="yes" id="tryAgainBtn">Ладно, люблю тебя 💘</button>
+        <button class="no" id="backToStartBtn">Вернуться</button>
+      </div>
+      <p class="footer-note">Я всё равно люблю тебя, даже если иногда жмёшь «не туда». Тык-тык 😊</p>
+    </section>
+  </div>
+
+  <script>
+    const s1 = document.getElementById('s1');
+    const s2 = document.getElementById('s2');
+    const s3 = document.getElementById('s3');
+    const loveBtn = document.getElementById('loveBtn');
+    const noloveBtn = document.getElementById('noloveBtn');
+    const kissBtn = document.getElementById('kissBtn');
+    const backBtn = document.getElementById('backBtn');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const backToStartBtn = document.getElementById('backToStartBtn');
+    const spray = document.getElementById('spray');
+    const counterEl = document.getElementById('counter');
+
+    let kisses = 0;
+    const GOAL = 890;
+
+    function show(screen){
+      [s1,s2,s3].forEach(sec=>{
+        sec.classList.remove('active');
+        sec.setAttribute('aria-hidden','true');
+      });
+      screen.classList.add('active');
+      screen.removeAttribute('aria-hidden');
+    }
+
+    function random(min,max){return Math.random()*(max-min)+min}
+
+    function dropHearts(count=20){
+      for(let i=0;i<count;i++){
+        const h = document.createElement('div');
+        h.className = 'heart';
+        h.textContent = Math.random() > .2 ? '💗' : (Math.random()> .5 ? '💖' : '💞');
+        const startLeft = random(-10, 100);
+        const duration = random(3.5, 7);
+        const delay = random(0, 0.6);
+        const scale = random(.8, 1.4);
+        h.style.left = startLeft + 'vw';
+        h.style.animationDuration = duration + 's';
+        h.style.animationDelay = delay + 's';
+        h.style.transform = `scale(${scale})`;
+        spray.appendChild(h);
+        setTimeout(()=> h.remove(), (duration+1)*1000);
+      }
+    }
+
+    loveBtn.addEventListener('click', ()=>{
+      show(s2);
+      dropHearts(28);
+      kisses = 0;
+      counterEl.textContent = `${kisses} / ${GOAL}`;
+    });
+
+    noloveBtn.addEventListener('click', ()=>{
+      show(s3);
+    });
+
+    tryAgainBtn.addEventListener('click', ()=>{
+      show(s2);
+      dropHearts(24);
+    });
+
+    backToStartBtn.addEventListener('click', ()=> show(s1));
+    backBtn.addEventListener('click', ()=> show(s1));
+
+    kissBtn.addEventListener('click', ()=>{
+      kisses = Math.min(GOAL, kisses + 1);
+      counterEl.textContent = `${kisses} / ${GOAL}`;
+      dropHearts(8);
+      if(kisses === GOAL){
+        const done = document.createElement('p');
+        done.style.marginTop = '14px';
+        done.style.fontWeight = '800';
+        done.innerHTML = 'Все <strong>890</strong> — твои! 💋💋💋';
+        s2.appendChild(done);
+        dropHearts(60);
+      }
+    });
+
+    document.addEventListener('keydown', (e)=>{
+      if((e.key === 'Enter' || e.key === ' ') && document.activeElement.tagName === 'BUTTON'){
+        document.activeElement.click();
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
